@@ -1,6 +1,13 @@
 #include <etch/etch.h>
 
-ETCH_PROGRAM(8080)
+ETCH_SERVER_ON(8080)
+
+ETCH_INIT
+{
+        printf("Hello, World\n");
+}
+
+ETCH_HANDLER
 {
         EtchResponse res = {0};
         res.status_code = ETCH_STATUS_CODE_OK;
@@ -11,3 +18,4 @@ ETCH_PROGRAM(8080)
 
         return res;
 }
+
