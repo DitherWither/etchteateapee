@@ -1,4 +1,5 @@
 #include "connection.h"
+#include <etch/response.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +11,7 @@
 
 struct etch_handle_connection_args {
         int clientfd;
+        struct etch_response_raw (*handler)(char *buffer, size_t len);
 };
 
 void *handle_connection(void *_args);
@@ -65,7 +67,7 @@ void etch_destroy_server(struct etch_server server)
         close(server.sockfd);
 }
 
-void etch_serve(uint16_t port)
+void etch_serve(uint16_t port, struct etch_response_raw (*handler)(char* buffer, size_t len))
 {
         struct etch_server server = etch_create_server(port, 10);
 
@@ -74,6 +76,8 @@ void etch_serve(uint16_t port)
                 socklen_t client_address_length = sizeof(client_address);
                 struct etch_handle_connection_args *args =
                         malloc(sizeof(struct etch_handle_connection_args));
+
+                args->handler = handler;
 
                 if ((args->clientfd = accept(server.sockfd, &client_address,
                                              &client_address_length)) < 0) {
@@ -96,8 +100,9 @@ void *handle_connection(void *_args)
         if (bytes_recieved <= 0) {
                 goto error;
         }
-        const char* hello = "Hello\r\n";
-        send(args->clientfd, hello, strlen(hello) + 1, 0);
+        struct etch_response_raw res = args->handler(buffer, bytes_recieved);
+        send(args->clientfd, res.bytes, res.len, 0);
+        free(res.bytes);
 
 error:
         close(args->clientfd);
