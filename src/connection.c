@@ -9,18 +9,17 @@
 #include <stdbool.h>
 #include <pthread.h>
 
-struct etch_handle_connection_args {
+typedef struct etch_handle_connection_args {
         int clientfd;
-        struct etch_response_raw (*handler)(char *buffer, size_t len);
-};
+        struct EtchResponse (*handler)(char *buffer, size_t len);
+} etch_handle_connection_args;
 
 void *handle_connection(void *_args);
 
-struct etch_server etch_create_server(uint16_t port,
-                                      int32_t max_pending_connections)
+EtchServer etch_create_server(uint16_t port, int32_t max_pending_connections)
 {
         int reuse = 1;
-        struct etch_server server = { 0 };
+        EtchServer server = { 0 };
 
         // Create the socket
         if ((server.sockfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0) {
@@ -61,21 +60,22 @@ struct etch_server etch_create_server(uint16_t port,
         return server;
 }
 
-void etch_destroy_server(struct etch_server server)
+void etch_destroy_server(EtchServer server)
 {
         fprintf(stderr, "Cleaning up\n");
         close(server.sockfd);
 }
 
-void etch_serve(uint16_t port, struct etch_response_raw (*handler)(char* buffer, size_t len))
+void etch_serve(uint16_t port,
+                EtchResponse (*handler)(char *buffer, size_t len))
 {
-        struct etch_server server = etch_create_server(port, 10);
+        EtchServer server = etch_create_server(port, 10);
 
         while (true) {
                 struct sockaddr client_address;
                 socklen_t client_address_length = sizeof(client_address);
-                struct etch_handle_connection_args *args =
-                        malloc(sizeof(struct etch_handle_connection_args));
+                etch_handle_connection_args *args =
+                        malloc(sizeof(etch_handle_connection_args));
 
                 args->handler = handler;
 
@@ -92,17 +92,19 @@ void etch_serve(uint16_t port, struct etch_response_raw (*handler)(char* buffer,
 
 void *handle_connection(void *_args)
 {
-        struct etch_handle_connection_args *args = _args;
-        char* buffer = malloc(CONNECTION_BUFFER_SIZE * sizeof(char));
+        etch_handle_connection_args *args = _args;
+        char *buffer = malloc(CONNECTION_BUFFER_SIZE * sizeof(char));
 
-        ssize_t bytes_recieved = recv(args->clientfd, buffer, CONNECTION_BUFFER_SIZE, 0);
+        ssize_t bytes_recieved =
+                recv(args->clientfd, buffer, CONNECTION_BUFFER_SIZE, 0);
 
         if (bytes_recieved <= 0) {
                 goto error;
         }
-        struct etch_response_raw res = args->handler(buffer, bytes_recieved);
-        send(args->clientfd, res.bytes, res.len, 0);
-        free(res.bytes);
+        EtchResponse res = args->handler(buffer, bytes_recieved);
+        EtchResponseRaw res_raw = etch_response_serialize(res);
+        send(args->clientfd, res_raw.bytes, res_raw.len, 0);
+        etch_response_free(res);
 
 error:
         close(args->clientfd);
@@ -110,4 +112,3 @@ error:
         free(buffer);
         return NULL;
 }
-

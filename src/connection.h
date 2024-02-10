@@ -7,13 +7,13 @@
 
 #define CONNECTION_BUFFER_SIZE 4096
 
-struct etch_server {
+typedef struct EtchServer {
         int32_t sockfd;
         struct sockaddr_in6 address;
-};
+} EtchServer;
 
-void etch_destroy_server(struct etch_server server);
+void etch_destroy_server(EtchServer server);
 void etch_serve(uint16_t port,
-                struct etch_response_raw (*handler)(char *buffer, size_t len));
-        
+                EtchResponse (*handler)(char *buffer, size_t len));
+
 #endif /* __CONNECTION_H__ */
