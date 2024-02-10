@@ -1,7 +1,6 @@
 #ifndef __ETCH_RESPONSE_H__
 #define __ETCH_RESPONSE_H__
 #include <stddef.h>
-#include <stdlib.h>
 
 
 typedef enum EtchStatusCode {

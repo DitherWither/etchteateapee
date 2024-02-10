@@ -6,8 +6,8 @@ LD=ld.lld
 CFLAGS=-Wall -Werror -std=c17 -flto -Iinclude/
 LDFLAGS=-fuse-ld=lld
 
-SRCS=src/main.c src/connection.c src/request.c src/response.c
-OBJS=src/main.o src/connection.o src/request.o src/response.o
+SRCS=src/main.c src/connection.c src/request.c src/response.c src/utils.c
+OBJS=src/main.o src/connection.o src/request.o src/response.o src/utils.o
 
 .PHONY: all
 all: etchteateapee

@@ -1,6 +1,6 @@
-#include "connection.h"
 #include <etch/response.h>
 
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,12 +9,21 @@
 #include <stdbool.h>
 #include <pthread.h>
 
+#define CONNECTION_BUFFER_SIZE 4096
+
 typedef struct etch_handle_connection_args {
         int clientfd;
         struct EtchResponse (*handler)(char *buffer, size_t len);
 } etch_handle_connection_args;
 
 void *handle_connection(void *_args);
+
+typedef struct EtchServer {
+        int32_t sockfd;
+        struct sockaddr_in6 address;
+} EtchServer;
+
+void etch_destroy_server(EtchServer server);
 
 EtchServer etch_create_server(uint16_t port, int32_t max_pending_connections)
 {
