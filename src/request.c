@@ -80,9 +80,10 @@ EtchRequest etch_request_from_string(const char *str)
                 request.body = NULL;
                 return request;
         }
-
-        request.body = malloc(strlen(str + bytes_read) + 1);
-        strcpy(request.body, str + bytes_read);
+        request.body = malloc(content_length + 1);
+        memcpy(request.body, str + bytes_read, content_length);
+        request.body[content_length] = '\0';
+        
         return request;
 }
 

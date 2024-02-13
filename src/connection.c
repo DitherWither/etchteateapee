@@ -106,25 +106,24 @@ void *handle_connection(void *_args)
         char *buffer = malloc(CONNECTION_BUFFER_SIZE * sizeof(char));
         memset(buffer, 0, CONNECTION_BUFFER_SIZE * sizeof(char));
 
-        ssize_t bytes_recieved =
-                read(args->clientfd, buffer, CONNECTION_BUFFER_SIZE);
+        ssize_t bytes_recieved;
+        while ((bytes_recieved = read(args->clientfd, buffer,
+                                      CONNECTION_BUFFER_SIZE)) > 0) {
+                buffer[bytes_recieved] = '\0';
+                fflush(stdout);
 
-        if (bytes_recieved <= 0) {
-                goto error;
+                EtchRequest req = etch_request_from_string(buffer);
+                EtchResponse res = args->handler(req);
+
+                EtchResponseRaw res_raw = etch_response_serialize(res);
+                send(args->clientfd, res_raw.bytes, res_raw.len, 0);
+
+                etch_response_free(res);
+                free(res_raw.bytes);
+                etch_free_request(req);
         }
-        buffer[bytes_recieved] = '\0';
-        fflush(stdout);
+        printf("exiting\n");
 
-        EtchRequest req = etch_request_from_string(buffer);
-        EtchResponse res = args->handler(req);
-
-        EtchResponseRaw res_raw = etch_response_serialize(res);
-        send(args->clientfd, res_raw.bytes, res_raw.len, 0);
-
-        etch_response_free(res);
-        free(res_raw.bytes);
-        etch_free_request(req);
-error:
         close(args->clientfd);
         free(args);
         free(buffer);
