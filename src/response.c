@@ -5,52 +5,6 @@
 
 const char *HTTP_VERSION = "HTTP/1.1";
 
-char *etch_header_to_string(EtchHeader header)
-{
-        // seperator is two characters, plus null terminator, plus \r\n
-        size_t str_length = strlen(header.name) + strlen(header.value) + 5;
-
-        char *buf = malloc(str_length * sizeof(char));
-
-        sprintf(buf, "%s: %s\r\n", header.name, header.value);
-
-        return buf;
-}
-
-char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
-                             char *body)
-{
-        int body_length = strlen(body);
-        char length_buf[16];
-        snprintf(length_buf, 16, "%d", body_length);
-        EtchHeader length_header = { 0 };
-        length_header.name = "Content-Length";
-        length_header.value = length_buf;
-
-        size_t total_length = 3; // null terminator + newline
-        total_length +=
-                strlen(length_header.name) + strlen(length_header.value) + 4;
-
-        // Calculate the buffer length
-        for (size_t i = 0; i < headers_count; i++)
-                total_length +=
-                        strlen(headers[i].name) + strlen(headers[i].value) + 4;
-
-        char *buf = malloc(total_length * sizeof(char));
-        size_t bytes_written = 0;
-
-        bytes_written += sprintf(buf, "%s: %s\r\n", length_header.name,
-                                 length_header.value);
-
-        for (size_t i = 0; i < headers_count; i++)
-                bytes_written += sprintf(buf + bytes_written, "%s: %s\r\n",
-                                         headers[i].name, headers[i].value);
-
-        sprintf(buf + bytes_written, "\r\n");
-
-        return buf;
-}
-
 EtchResponseRaw etch_response_serialize(EtchResponse response)
 {
         const char *status_code =

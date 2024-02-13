@@ -1,7 +1,8 @@
 #ifndef __ETCH_RESPONSE_H__
 #define __ETCH_RESPONSE_H__
-#include <stddef.h>
 
+#include <etch/header.h>
+#include <stddef.h>
 
 typedef enum EtchStatusCode {
         ETCH_STATUS_CODE_CONTINUE = 100,
@@ -52,16 +53,6 @@ typedef struct EtchResponseRaw {
         char *bytes;
         size_t len;
 } EtchResponseRaw;
-
-typedef struct EtchHeader {
-        char *name;
-        char *value;
-} EtchHeader;
-
-// returned value to be freed by caller
-char *etch_header_to_string(EtchHeader header);
-// Body used for content-length
-char *etch_headers_to_string(EtchHeader header[], size_t headers_count, char* body);
 
 // headers and body must be heap allocated with malloc, as free is called in destructor
 typedef struct EtchResponse {

@@ -1,4 +1,5 @@
-#include <etch/response.h>
+#include <etch/request.h>
+#include <etch/server.h>
 
 #include <netinet/in.h>
 #include <stdio.h>
@@ -13,7 +14,7 @@
 
 typedef struct etch_handle_connection_args {
         int clientfd;
-        struct EtchResponse (*handler)(char *buffer, size_t len);
+        struct EtchResponse (*handler)(EtchRequest request);
 } etch_handle_connection_args;
 
 void *handle_connection(void *_args);
@@ -75,8 +76,7 @@ void etch_destroy_server(EtchServer server)
         close(server.sockfd);
 }
 
-void etch_serve(uint16_t port,
-                EtchResponse (*handler)(char *buffer, size_t len))
+void etch_serve(uint16_t port, EtchResponse (*handler)(EtchRequest request))
 {
         EtchServer server = etch_create_server(port, 10);
 
@@ -103,14 +103,21 @@ void *handle_connection(void *_args)
 {
         etch_handle_connection_args *args = _args;
         char *buffer = malloc(CONNECTION_BUFFER_SIZE * sizeof(char));
+        memset(buffer, 0, CONNECTION_BUFFER_SIZE * sizeof(char));
 
         ssize_t bytes_recieved =
-                recv(args->clientfd, buffer, CONNECTION_BUFFER_SIZE, 0);
+                read(args->clientfd, buffer, CONNECTION_BUFFER_SIZE);
 
         if (bytes_recieved <= 0) {
                 goto error;
         }
-        EtchResponse res = args->handler(buffer, bytes_recieved);
+        buffer[bytes_recieved] = '\0';
+        fflush(stdout);
+
+        EtchRequest req = etch_request_from_string(buffer);
+        EtchResponse res = args->handler(req);
+        // etch_free_request(req);
+
         EtchResponseRaw res_raw = etch_response_serialize(res);
         send(args->clientfd, res_raw.bytes, res_raw.len, 0);
         etch_response_free(res);
