@@ -1,3 +1,4 @@
 *.o
 /etchteateapee
 .cache
+/valgrind.rpt

@@ -62,7 +62,12 @@ typedef struct EtchResponse {
         char *body;
 } EtchResponse;
 
+EtchResponse etch_response_default();
+
 EtchResponseRaw etch_response_serialize(EtchResponse response);
+
+void etch_response_add_header(EtchResponse *res, const char *name,
+                              const char *value);
 
 void etch_response_free(EtchResponse response);
 

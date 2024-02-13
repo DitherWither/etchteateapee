@@ -16,6 +16,8 @@ char *etch_headers_to_string(EtchHeader header[], size_t headers_count,
 
 size_t etch_header_from_string(const char *str, EtchHeader *header);
 
+EtchHeader etch_header_new(const char *name, const char *value);
+
 void etch_header_free(EtchHeader header);
 void etch_headers_free(EtchHeader *headers, size_t length);
 

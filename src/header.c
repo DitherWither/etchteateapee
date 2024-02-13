@@ -89,6 +89,19 @@ size_t etch_header_from_string(const char *str, EtchHeader *header)
         return bytes_read;
 }
 
+EtchHeader etch_header_new(const char *name, const char *value)
+{
+        EtchHeader header = { 0 };
+
+        header.name = malloc(strlen(name) + 1);
+        strcpy(header.name, name);
+
+        header.value = malloc(strlen(value) + 1);
+        strcpy(header.value, value);
+
+        return header;
+}
+
 void etch_header_free(EtchHeader header)
 {
         free(header.name);

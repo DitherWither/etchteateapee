@@ -1,3 +1,4 @@
+#include "etch/header.h"
 #include <etch/response.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,6 +32,27 @@ EtchResponseRaw etch_response_serialize(EtchResponse response)
 
         return raw_response;
 }
+
+void etch_response_add_header(EtchResponse *res, const char *name,
+                              const char *value)
+{
+        EtchHeader header = etch_header_new(name, value);
+
+        if (res->headers == NULL) {
+                res->headers = malloc(sizeof(EtchHeader));
+                res->headers_count = 1;
+
+                res->headers[0] = header;
+                return;
+        }
+
+        res->headers = realloc(res->headers,
+                               (res->headers_count + 1) * sizeof(EtchHeader));
+        res->headers_count++;
+
+        res->headers[res->headers_count - 1] = header;
+}
+
 const char *etch_status_code_to_string(EtchStatusCode status_code)
 {
         // This code was generated using sed and some regex, don't mind this
@@ -120,8 +142,18 @@ const char *etch_status_code_to_string(EtchStatusCode status_code)
         }
 }
 
-void etch_response_free(EtchResponse response)
+EtchResponse etch_response_default()
 {
-        free(response.headers);
-        free(response.body);
+        EtchResponse res = { 0 };
+        res.status_code = ETCH_STATUS_CODE_OK;
+
+        // Other fields can be safely zeroed out
+
+        return res;
+}
+
+void etch_response_free(EtchResponse res)
+{
+        etch_headers_free(res.headers, res.headers_count);
+        free(res.body);
 }
