@@ -4,7 +4,6 @@
 
 ETCH_SERVER_ON(8080)
 
-// TODO: deallocate memory
 
 ETCH_INIT
 {
