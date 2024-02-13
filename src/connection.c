@@ -96,6 +96,7 @@ void etch_serve(uint16_t port, EtchResponse (*handler)(EtchRequest request))
 
                 pthread_t thread_id;
                 pthread_create(&thread_id, NULL, handle_connection, args);
+                pthread_detach(thread_id);
         }
 }
 
@@ -116,12 +117,13 @@ void *handle_connection(void *_args)
 
         EtchRequest req = etch_request_from_string(buffer);
         EtchResponse res = args->handler(req);
-        // etch_free_request(req);
 
         EtchResponseRaw res_raw = etch_response_serialize(res);
         send(args->clientfd, res_raw.bytes, res_raw.len, 0);
-        etch_response_free(res);
 
+        etch_response_free(res);
+        free(res_raw.bytes);
+        etch_free_request(req);
 error:
         close(args->clientfd);
         free(args);

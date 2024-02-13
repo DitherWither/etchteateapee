@@ -89,6 +89,6 @@ EtchRequest etch_request_from_string(const char *str)
 void etch_free_request(EtchRequest request)
 {
         free(request.path);
-        // etch_headers_free(request.headers, request.headers_count);
+        etch_headers_free(request.headers, request.headers_count);
         free(request.body);
 }

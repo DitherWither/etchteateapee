@@ -3,8 +3,8 @@ AR=llvm-ar
 AS=llvm-mc
 CPP=clang++
 LD=ld.lld
-CFLAGS=-Wall -Werror -std=c17 -flto -Iinclude/ -fsanitize=address -O0 -g
-LDFLAGS=-fuse-ld=lld -fsanitize=address 
+CFLAGS=-Wall -Werror -std=c17 -flto -Iinclude/ -O0 -g
+LDFLAGS=-fuse-ld=lld 
 
 SRCS=\
 	src/main.c \
