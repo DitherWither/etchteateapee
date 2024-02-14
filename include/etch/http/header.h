@@ -1,5 +1,5 @@
-#ifndef __ETCH_HEADER_H__
-#define __ETCH_HEADER_H__
+#ifndef __ETCH_HTTP_HEADER_H__
+#define __ETCH_HTTP_HEADER_H__
 
 #include <stddef.h>
 
@@ -21,4 +21,4 @@ EtchHeader etch_header_new(const char *name, const char *value);
 void etch_header_free(EtchHeader header);
 void etch_headers_free(EtchHeader *headers, size_t length);
 
-#endif /* __ETCH_HEADER_H__ */
+#endif /* __ETCH_HTTP_HEADER_H__ */

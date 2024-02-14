@@ -1,6 +1,6 @@
-#include "etch/config.h"
-#include "etch/header.h"
-#include <etch/response.h>
+#include <etch/config.h>
+#include <etch/http/header.h>
+#include <etch/http/response.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

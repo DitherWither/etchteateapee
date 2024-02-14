@@ -1,5 +1,5 @@
-#include <etch/header.h>
-#include <etch/request.h>
+#include <etch/http/header.h>
+#include <etch/http/request.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>

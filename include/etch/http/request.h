@@ -1,7 +1,7 @@
 #ifndef __ETCH_REQUEST_H__
 #define __ETCH_REQUEST_H__
 
-#include <etch/header.h>
+#include <etch/http/header.h>
 
 typedef enum EtchMethod {
         ETCH_METHOD_OPTIONS = 0,

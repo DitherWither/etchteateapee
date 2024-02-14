@@ -1,7 +1,7 @@
 #ifndef __ETCH_RESPONSE_H__
 #define __ETCH_RESPONSE_H__
 
-#include <etch/header.h>
+#include <etch/http/header.h>
 #include <stddef.h>
 
 typedef enum EtchStatusCode {

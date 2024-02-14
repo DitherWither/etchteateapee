@@ -2,8 +2,8 @@
 #define __ETCH_SERVER_H__
 
 #include <stdint.h>
-#include <etch/response.h>
-#include <etch/request.h>
+#include <etch/http/response.h>
+#include <etch/http/request.h>
 
 void etch_serve(uint16_t port,
                 EtchResponse (*handler)(EtchRequest req));

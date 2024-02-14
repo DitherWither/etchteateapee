@@ -1,5 +1,5 @@
 #include "etch/config.h"
-#include <etch/request.h>
+#include <etch/http/request.h>
 #include <etch/server.h>
 
 #include <netinet/in.h>
