@@ -1,3 +1,4 @@
+#include "etch/config.h"
 #include <etch/request.h>
 #include <etch/server.h>
 
@@ -79,6 +80,7 @@ void etch_destroy_server(EtchServer server)
 void etch_serve(uint16_t port, EtchResponse (*handler)(EtchRequest request))
 {
         EtchServer server = etch_create_server(port, 10);
+        etch_config_init();
 
         while (true) {
                 struct sockaddr client_address;

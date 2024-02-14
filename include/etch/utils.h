@@ -1,5 +1,6 @@
 #ifndef __ETCH_UTILS_H__
 #define __ETCH_UTILS_H__
+#include "etch/response.h"
 #include <stdarg.h>
 
 #ifndef _GNU_SOURCE

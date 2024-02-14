@@ -1,3 +1,4 @@
+#include "etch/config.h"
 #include "etch/header.h"
 #include <etch/response.h>
 #include <stdio.h>
@@ -52,6 +53,7 @@ void etch_response_add_header(EtchResponse *res, const char *name,
 
         res->headers[res->headers_count - 1] = header;
 }
+
 
 const char *etch_status_code_to_string(EtchStatusCode status_code)
 {

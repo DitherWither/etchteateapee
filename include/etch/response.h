@@ -64,11 +64,13 @@ typedef struct EtchResponse {
 
 EtchResponse etch_response_default();
 
-EtchResponseRaw etch_response_serialize(EtchResponse response);
+EtchResponseRaw etch_response_serialize(EtchResponse res);
 
 void etch_response_add_header(EtchResponse *res, const char *name,
                               const char *value);
 
-void etch_response_free(EtchResponse response);
+void etch_response_free(EtchResponse res);
+
+int etch_response_serve_file(EtchResponse *res, const char* path);
 
 #endif /* __ETCH_RESPONSE_H__ */

@@ -8,18 +8,23 @@ LDFLAGS=-fuse-ld=lld
 
 SRCS=\
 	src/main.c \
-	src/connection.c \
+	src/server.c \
 	src/request.c \
 	src/response.c \
 	src/utils.c \
-	src/header.c
+	src/header.c \
+	src/response_serve_file.c \
+	src/config.c
+	
 OBJS=\
     src/main.o \
-	src/connection.o \
+	src/server.o \
 	src/request.o \
 	src/response.o \
 	src/utils.o \
-	src/header.o
+	src/header.o \
+	src/response_serve_file.o \
+	src/config.o
 
 .PHONY: all
 all: etchteateapee
