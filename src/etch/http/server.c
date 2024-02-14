@@ -1,6 +1,6 @@
-#include "etch/config.h"
+#include <etch/core/config.h>
 #include <etch/http/request.h>
-#include <etch/server.h>
+#include <etch/http/server.h>
 
 #include <netinet/in.h>
 #include <stdio.h>

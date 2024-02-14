@@ -1,4 +1,4 @@
-#include <etch/config.h>
+#include <etch/core/config.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>

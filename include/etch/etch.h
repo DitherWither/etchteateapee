@@ -3,8 +3,8 @@
 
 #include <etch/http/request.h>
 #include <etch/http/response.h>
-#include <etch/server.h>
-#include <etch/utils.h>
+#include <etch/http/server.h>
+#include <etch/core/utils.h>
 
 #include <stdio.h>
 #include <stdlib.h>

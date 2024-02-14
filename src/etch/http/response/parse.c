@@ -1,4 +1,4 @@
-#include <etch/config.h>
+#include <etch/core/config.h>
 #include <etch/http/header.h>
 #include <etch/http/response.h>
 #include <stdio.h>

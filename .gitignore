@@ -1,4 +1,6 @@
 *.o
+*.so
 /etchteateapee
 .cache
 /valgrind.rpt
+/build
