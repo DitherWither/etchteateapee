@@ -4,16 +4,19 @@
       "/usr/bin/clang",
       "-Wall",
       "-Werror",
-      "-std=c17",
+      "-std=c99",
       "-flto",
-      "-Iinclude/",
+      "-I/home/vardhan/Projects/etchteateapee/include/",
+      "-O0",
+      "-g",
+      "-fpic",
       "-c",
       "-o",
-      "src/connection.o",
-      "src/connection.c"
+      "main.o",
+      "main.c"
     ],
-    "directory": "/home/vardhan/Projects/etchteateapee",
-    "file": "/home/vardhan/Projects/etchteateapee/src/connection.c",
-    "output": "/home/vardhan/Projects/etchteateapee/src/connection.o"
+    "directory": "/home/vardhan/Projects/etchteateapee/src",
+    "file": "/home/vardhan/Projects/etchteateapee/src/main.c",
+    "output": "/home/vardhan/Projects/etchteateapee/src/main.o"
   }
 ]
