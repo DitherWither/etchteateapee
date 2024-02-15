@@ -27,7 +27,7 @@ typedef struct EtchServer {
 
 void etch_destroy_server(EtchServer server);
 
-EtchServer etch_create_server(uint16_t port, int32_t max_pending_connections)
+EtchServer etch_create_server()
 {
         int reuse = 1;
         EtchServer server = { 0 };
@@ -49,7 +49,7 @@ EtchServer etch_create_server(uint16_t port, int32_t max_pending_connections)
         // Construct the address
         server.address.sin6_family = AF_INET6;
         server.address.sin6_addr = in6addr_any;
-        server.address.sin6_port = htons(port);
+        server.address.sin6_port = htons(etch_get_port());
 
         // Bind the server
         if (bind(server.sockfd, (struct sockaddr *)&server.address,
@@ -60,13 +60,13 @@ EtchServer etch_create_server(uint16_t port, int32_t max_pending_connections)
         }
 
         // Listen to the address
-        if (listen(server.sockfd, max_pending_connections) < 0) {
+        if (listen(server.sockfd, etch_get_max_pending_connections()) < 0) {
                 perror("listen() failed");
                 etch_destroy_server(server);
                 exit(-1);
         }
 
-        printf("Listening on port %d\n", port);
+        printf("Listening on port %d\n", etch_get_port());
 
         return server;
 }
@@ -77,10 +77,9 @@ void etch_destroy_server(EtchServer server)
         close(server.sockfd);
 }
 
-void etch_serve(uint16_t port, EtchResponse (*handler)(EtchRequest request))
+void etch_serve(EtchResponse (*handler)(EtchRequest request))
 {
-        EtchServer server = etch_create_server(port, 10);
-        etch_config_init();
+        EtchServer server = etch_create_server();
 
         while (true) {
                 struct sockaddr client_address;

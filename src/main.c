@@ -1,11 +1,13 @@
+#include "etch/core/config.h"
 #include <etch/http/response.h>
 #include <etch/core/utils.h>
 #include <etch/etch.h>
 
-ETCH_SERVER_ON(8080)
+ETCH_SERVER
 
 ETCH_INIT
 {
+        etch_set_port(8081);
         printf("Hello, World\n");
 }
 
