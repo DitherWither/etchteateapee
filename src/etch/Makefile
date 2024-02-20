@@ -13,6 +13,7 @@ libetch.so:
 	
 
 clean:
+	rm -f etch.o libetch.so
 	$(MAKE) -C core clean
 	$(MAKE) -C http clean
 

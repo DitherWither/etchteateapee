@@ -19,3 +19,8 @@ dist:
 	cp -r include dist/include
 
 	tar -czvf etch_precompiled_alpha.tar.xz -C dist $$(cd dist && echo *)
+
+.PHONY: clean
+clean:
+	rm -rf ./dist
+	rm -f d etch_precompiled_alpha.tar.xz

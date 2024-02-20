@@ -1,7 +1,4 @@
-#include "etch/core/config.h"
-#include <etch/http/response.h>
-#include <etch/core/utils.h>
-#include <etch/etch.h>
+#include <etch.h>
 
 ETCH_SERVER
 

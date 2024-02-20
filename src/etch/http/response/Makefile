@@ -10,4 +10,4 @@ all: ../response.o
 
 .PHONY: clean
 clean:
-	rm $(OBJS)
+	rm -f $(OBJS) ../response.o

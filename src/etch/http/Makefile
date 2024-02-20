@@ -11,5 +11,5 @@ all: ../http.o
 
 .PHONY: clean
 clean:
-	rm $(OBJS)
+	rm -f $(OBJS) ../http.o
 	$(MAKE) -C response clean

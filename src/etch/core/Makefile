@@ -9,4 +9,4 @@ all: ../core.o
 	$(LD) -o ../core.o -relocatable $(OBJS)
 
 clean:
-	rm $(OBJS)
+	rm -f $(OBJS) ../core.o
