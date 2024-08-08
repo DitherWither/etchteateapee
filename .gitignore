@@ -1,6 +1,4 @@
 .cache
 /valgrind.rpt
 /build
-dist
-/etch_*.tar.xz
 compile_commands.json

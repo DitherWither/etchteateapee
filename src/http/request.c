@@ -41,7 +41,6 @@ EtchRequest etch_request_from_string(const char *str)
         if (*(str + bytes_read) == '\n')
                 bytes_read++;
 
-        
         request.method = etch_method_from_string(method_str);
         free(method_str);
 
@@ -51,7 +50,8 @@ EtchRequest etch_request_from_string(const char *str)
         int res;
 
         while ((res = etch_header_from_string(
-                        str + bytes_read, &request.headers[request.headers_count])) > 0) {
+                        str + bytes_read,
+                        &request.headers[request.headers_count])) > 0) {
                 request.headers_count++;
                 if (request.headers_count >= headers_size) {
                         headers_size += 16;
@@ -83,7 +83,7 @@ EtchRequest etch_request_from_string(const char *str)
         request.body = malloc(content_length + 1);
         memcpy(request.body, str + bytes_read, content_length);
         request.body[content_length] = '\0';
-        
+
         return request;
 }
 

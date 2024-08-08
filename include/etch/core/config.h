@@ -7,7 +7,7 @@
 void etch_config_init(void);
 
 const char *etch_get_res_dir(void);
-void etch_set_res_dir(const char* res_dir);
+void etch_set_res_dir(const char *res_dir);
 
 uint16_t etch_get_port(void);
 void etch_set_port(uint16_t port);

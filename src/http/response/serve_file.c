@@ -17,7 +17,7 @@ int etch_response_serve_file(EtchResponse *res, const char *path)
         // allocate size of index.html just in case
         int length =
                 strlen(resource_dir) + strlen(path) + sizeof("/index.html") + 1;
-        
+
         char *full_path = malloc(length * sizeof(char));
         strcpy(full_path, resource_dir);
         strcat(full_path, path);
@@ -25,7 +25,6 @@ int etch_response_serve_file(EtchResponse *res, const char *path)
         if (!is_regular_file(full_path)) {
                 strcat(full_path, "/index.html");
         }
-
 
         if (res->body != NULL) {
                 free(res->body);
@@ -54,7 +53,9 @@ static int read_file(const char *path, char **file)
         char *mmap_file = mmap(NULL, length, PROT_READ, MAP_PRIVATE, fd, 0);
 
         *file = malloc(length + 1);
-        memset(*file, 0, length + 1); // For some reason, using array indexes gives segfault
+        memset(*file, 0,
+               length +
+                       1); // For some reason, using array indexes gives segfault
         memcpy(*file, mmap_file, length);
 
         munmap(mmap_file, length);
