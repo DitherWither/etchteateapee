@@ -1,5 +1,5 @@
-#ifndef __ETCH_SERVER_H__
-#define __ETCH_SERVER_H__
+#ifndef __ETCH_HTTP_SERVER_H__
+#define __ETCH_HTTP_SERVER_H__
 
 #include <stdint.h>
 #include <etch/http/response.h>
@@ -21,4 +21,4 @@ void etch_serve(EtchResponse (*handler)(EtchRequest req));
 #define ETCH_INIT void __etch_init(int argc, char **argv)
 #define ETCH_HANDLER EtchResponse __etch_handler(EtchRequest req)
 
-#endif /* __ETCH_SERVER_H__ */
+#endif /* __ETCH_HTTP_SERVER_H__ */

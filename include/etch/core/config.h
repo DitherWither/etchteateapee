@@ -1,5 +1,5 @@
-#ifndef __ETCH_CONFIG_H__
-#define __ETCH_CONFIG_H__
+#ifndef __ETCH_CORE_CONFIG_H__
+#define __ETCH_CORE_CONFIG_H__
 
 #include <stdint.h>
 #define ETCH_DEFAULT_RES_DIR "res"
@@ -15,4 +15,4 @@ void etch_set_port(uint16_t port);
 int32_t etch_get_max_pending_connections(void);
 void etch_set_max_pending_connections(int32_t max_pending_connections);
 
-#endif /* __ETCH_CONFIG_H__ */
+#endif /* __ETCH_CORE_CONFIG_H__ */

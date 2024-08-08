@@ -1,5 +1,5 @@
-#ifndef __ETCH_UTILS_H__
-#define __ETCH_UTILS_H__
+#ifndef __ETCH_CORE_UTILS_H__
+#define __ETCH_CORE_UTILS_H__
 #include <stdarg.h>
 
 #ifndef _GNU_SOURCE
@@ -11,4 +11,4 @@ int asprintf(char **strp, const char *fmt, ...);
 int vcasprintf(char **strp, const char *fmt, va_list ap);
 int casprintf(char **strp, const char *fmt, ...);
 
-#endif /* __ETCH_UTILS_H__ */
+#endif /* __ETCH_CORE_UTILS_H__ */

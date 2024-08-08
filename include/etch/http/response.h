@@ -1,5 +1,5 @@
-#ifndef __ETCH_RESPONSE_H__
-#define __ETCH_RESPONSE_H__
+#ifndef __ETCH_HTTP_RESPONSE_H__
+#define __ETCH_HTTP_RESPONSE_H__
 
 #include <etch/http/header.h>
 #include <stddef.h>
@@ -73,4 +73,4 @@ void etch_response_free(EtchResponse res);
 
 int etch_response_serve_file(EtchResponse *res, const char *path);
 
-#endif /* __ETCH_RESPONSE_H__ */
+#endif /* __ETCH_HTTP_RESPONSE_H__ */
