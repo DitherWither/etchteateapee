@@ -1,2 +1,4 @@
 #!/bin/sh
+# Formats all files from the project
+
 find . -name \*.c -o -name \*.h | xargs clang-format -i

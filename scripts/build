@@ -1,0 +1,9 @@
+#!/bin/sh
+# Does a clean build
+
+rm -r build
+mkdir build
+pushd build
+    cmake ..
+    cmake --build .
+popd
