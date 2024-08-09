@@ -13,18 +13,18 @@ set(
 )
 set(
     HEADER_FILES
-    etch/include/etch/core.h
-    etch/include/etch/core/utils.h
-    etch/include/etch/core/config.h
-    etch/include/etch/http.h
-    etch/include/etch/http/response.h
-    etch/include/etch/http/header.h
-    etch/include/etch/http/request.h
-    etch/include/etch/http/server.h
-    etch/include/etch.h
+    include/etch/core.h
+    include/etch/core/utils.h
+    include/etch/core/config.h
+    include/etch/http.h
+    include/etch/http/response.h
+    include/etch/http/header.h
+    include/etch/http/request.h
+    include/etch/http/server.h
+    include/etch.h
 )
 
-include_directories(etch/include)
+include_directories(include)
 
 # Create shared library
 add_library(etch SHARED ${SOURCE_FILES})
