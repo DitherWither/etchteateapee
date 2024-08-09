@@ -13,7 +13,7 @@ of pthread, as well as rewrite build scripts for windows.
 ## Project Structure
 
 - `docs`: Contains documentation files (markdown)
-- `etch`: Contains source files for etch
+- `src`: Contains source files for etch
 - `examples`: Contains examples on how to use etch
 - `include`: Contains public headers for etch. See the doxygen docs for more info
 - `scripts`: Contains scripts used to develop etch

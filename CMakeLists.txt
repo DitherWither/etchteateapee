@@ -3,13 +3,13 @@ project(etch VERSION 0.2)
 
 set(
     SOURCE_FILES
-    etch/core/utils.c
-    etch/core/config.c
-    etch/http/request.c
-    etch/http/response/serve_file.c
-    etch/http/response/parse.c
-    etch/http/server.c
-    etch/http/header.c
+    src/core/utils.c
+    src/core/config.c
+    src/http/request.c
+    src/http/response/serve_file.c
+    src/http/response/parse.c
+    src/http/server.c
+    src/http/header.c
 )
 set(
     HEADER_FILES
