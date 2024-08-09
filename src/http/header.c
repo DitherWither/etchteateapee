@@ -16,7 +16,7 @@ char *etch_header_to_string(EtchHeader header)
 }
 
 char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
-                             char *body)
+                             const char *body)
 {
         int body_length = strlen(body);
         char length_buf[16];

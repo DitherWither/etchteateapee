@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.30)
 project(etch VERSION 0.2)
 
+include(CTest)
+add_subdirectory(tests)
 set(
     SOURCE_FILES
     src/core/utils.c
@@ -24,10 +26,9 @@ set(
     include/etch.h
 )
 
-include_directories(include)
-
 # Create shared library
 add_library(etch SHARED ${SOURCE_FILES})
+target_include_directories(etch PUBLIC include)
 
 # Install library
 install(TARGETS etch DESTINATION lib/etch)

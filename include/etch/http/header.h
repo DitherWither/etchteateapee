@@ -42,7 +42,7 @@ char *etch_header_to_string(EtchHeader header);
  * @return char* HTTP Headers block as string
  */
 char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
-                             char *body);
+                             const char *body);
 
 /**
  * @brief Reads a HTTP header string and converts it to the header struct
