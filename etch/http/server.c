@@ -13,13 +13,13 @@
 
 #define CONNECTION_BUFFER_SIZE 4096
 
-typedef struct etch_handle_connection_args {
+typedef struct EtchHandleConnectionArgs {
         int clientfd;
         struct EtchResponse (*handler)(EtchRequest request);
 } etch_handle_connection_args;
 
 void *handle_connection(void *_args);
-
+ 
 typedef struct EtchServer {
         int32_t sockfd;
         struct sockaddr_in6 address;

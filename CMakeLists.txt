@@ -3,23 +3,34 @@ project(etch VERSION 0.2)
 
 set(
     SOURCE_FILES
-    src/core/utils.c
-    src/core/config.c
-    src/http/request.c
-    src/http/response/serve_file.c
-    src/http/response/parse.c
-    src/http/server.c
-    src/http/header.c
+    etch/core/utils.c
+    etch/core/config.c
+    etch/http/request.c
+    etch/http/response/serve_file.c
+    etch/http/response/parse.c
+    etch/http/server.c
+    etch/http/header.c
+)
+set(
+    HEADER_FILES
+    etch/include/etch/core.h
+    etch/include/etch/core/utils.h
+    etch/include/etch/core/config.h
+    etch/include/etch/http.h
+    etch/include/etch/http/response.h
+    etch/include/etch/http/header.h
+    etch/include/etch/http/request.h
+    etch/include/etch/http/server.h
+    etch/include/etch.h
 )
 
-include_directories(include)
+include_directories(etch/include)
 
 # Create shared library
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+add_library(etch SHARED ${SOURCE_FILES})
 
 # Install library
-install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
+install(TARGETS etch DESTINATION lib/etch)
 
 # Install library headers
-file(GLOB HEADERS include/*.h)
-install(FILES ${HEADERS} DESTINATION include/${PROJECT_NAME})
+install(FILES ${HEADER_FILES} DESTINATION include/etch)
