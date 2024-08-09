@@ -1,3 +1,13 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+/**
+ * @file http.h
+ * @author Vardhan Patil (hi@vardhanpatil.com)
+ * @brief The etch HTTP module
+ * 
+ * @copyright Copyright (c) 2024 Vardhan Patil
+ * @lgpl
+ * 
+ */
 #ifndef __ETCH_HTTP_H__
 #define __ETCH_HTTP_H__
 

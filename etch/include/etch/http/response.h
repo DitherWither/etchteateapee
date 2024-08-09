@@ -1,9 +1,23 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+/**
+ * @file response.h
+ * @author Vardhan Patil (hi@vardhanpatil.com)
+ * @brief HTTP responses and related functions/structs
+ * 
+ * @copyright Copyright (c) 2024 Vardhan Patil
+ * @lgpl
+ */
 #ifndef __ETCH_HTTP_RESPONSE_H__
 #define __ETCH_HTTP_RESPONSE_H__
 
 #include <etch/http/header.h>
 #include <stddef.h>
 
+/**
+ * @brief HTTP Status code enum
+ * 
+ * As defined under RFC 2616, Section 10
+ */
 typedef enum EtchStatusCode {
         ETCH_STATUS_CODE_CONTINUE = 100,
         ETCH_STATUS_CODE_SWITCHING_PROTOCOLS = 101,
@@ -47,14 +61,31 @@ typedef enum EtchStatusCode {
         ETCH_STATUS_CODE_HTTP_VERSION_NOT_SUPPORTED = 505
 } EtchStatusCode;
 
+/**
+ * @brief Converts HTTP status enum to string
+ *
+ * As an example, ETCH_HTTP_STATUS_CODE_OK will be converted to "200 OK"
+ * 
+ * @param status_code HTTP status code as enum
+ * @return const char* HTTP Status string
+ */
 const char *etch_status_code_to_string(EtchStatusCode status_code);
 
+/**
+ * @brief Raw HTTP Response
+ * 
+ * Internally, this is just a raw string tagged with its length for convenience
+ */
 typedef struct EtchResponseRaw {
         char *bytes;
         size_t len;
 } EtchResponseRaw;
 
-// headers and body must be heap allocated with malloc, as free is called in destructor
+/**
+ * @brief HTTP response struct
+ *  
+ * Headers and body must be heap allocated with malloc, as free is called in destructor 
+ */
 typedef struct EtchResponse {
         EtchStatusCode status_code;
         EtchHeader *headers;
@@ -62,15 +93,47 @@ typedef struct EtchResponse {
         char *body;
 } EtchResponse;
 
+/**
+ * @brief Generate a blank HTTP response 
+ * 
+ * @return EtchResponse A blank HTTP response
+ */
 EtchResponse etch_response_default();
 
+/**
+ * @brief Serialize the HTTP response struct into a string and lenghth 
+ * 
+ * @param res HTTP Response struct 
+ * @return EtchResponseRaw Serialized HTTP response, to be sent over the network
+ */
 EtchResponseRaw etch_response_serialize(EtchResponse res);
 
+/**
+ * @brief Appends a header to the given http response
+ * 
+ * @param res HTTP response to be modified
+ * @param name Field name of the header
+ * @param value Content of the header
+ */
 void etch_response_add_header(EtchResponse *res, const char *name,
                               const char *value);
 
+/**
+ * @brief Frees the memory used by the HTTP Response struct
+ *
+ * TODO: Zero out the cleared fields  
+ *
+ * @param res HTTP Response to be freed
+ */
 void etch_response_free(EtchResponse res);
 
+/**
+ * @brief Serve a static file from the resource directory
+ * 
+ * @param res HTTP Response to be written to
+ * @param path Path of the file
+ * @return int 0 if successful, negative on error
+ */
 int etch_response_serve_file(EtchResponse *res, const char *path);
 
 #endif /* __ETCH_HTTP_RESPONSE_H__ */

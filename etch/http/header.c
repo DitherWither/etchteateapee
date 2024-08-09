@@ -1,4 +1,3 @@
-
 #include <etch/http/header.h>
 #include <stdio.h>
 #include <stdlib.h>
