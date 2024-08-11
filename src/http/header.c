@@ -1,7 +1,10 @@
 #include <etch/http/header.h>
+#include <etch/core/debug.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/_types/_null.h>
 
 char *etch_header_to_string(EtchHeader header)
 {
@@ -52,37 +55,48 @@ char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
 size_t etch_header_from_string(const char *str, EtchHeader *header)
 {
         if (str[0] == '\0') {
-                return -2;
+                return -1;
         }
 
         if (str[0] == '\r' && str[1] == '\n') {
                 return -1;
         }
 
-        sscanf(str, "%ms: ", &header->name);
-        int bytes_read = strlen(header->name) + 1;
-        header->name[strlen(header->name) - 1] =
-                '\0'; // remove last character, should always be :
-        size_t value_len = 0;
-        while (((str + bytes_read + value_len)[0] != '\r' &&
-                (str + bytes_read + value_len)[1] != '\n') ||
-               (str + bytes_read + value_len)[0] == '\0') {
-                value_len++;
+        char *colon_pos = strchr(str, ':');
+        if (colon_pos == NULL)
+                return -1;
+
+        // Read till `:`
+        size_t name_len = colon_pos - str;
+        header->name = malloc(name_len + 1);
+        memcpy(header->name, str, name_len);
+
+        header->name[name_len + 1] = '\0';
+
+        // Trim whitespace
+        char *cur = colon_pos + 1;
+        while (*cur == ' ')
+                cur++;
+
+        // Read till \r
+        char *cr_pos = strchr(cur, '\r');
+        bool is_end = false;
+        if (cr_pos == NULL) {
+                // Read rest of the string
+                cr_pos = strchr(cur, '\0');
+                is_end = true;
         }
-
+        size_t value_len = cr_pos - cur;
         header->value = malloc(value_len + 1);
-        memcpy(header->value, str + bytes_read, value_len);
-        header->value[value_len] = '\0';
+        memcpy(header->value, cur, value_len);
+        header->value[value_len + 1] = '\0';
 
-        bytes_read += value_len;
+        size_t bytes_read = cr_pos - str + 2; // +1 for newline
+        if (is_end)
+                bytes_read -= 2;
 
-        if ((str + bytes_read)[0] == '\0') {
-                bytes_read += 1;
-        } else {
-                bytes_read += 2; // include the `\r\n`
-                if ((str + bytes_read)[0] == '\n') {
-                        bytes_read++;
-                }
+        if (!is_end && *(cr_pos + 2) == '\r' && *(cr_pos + 3) == '\n') {
+                bytes_read += 2;
         }
 
         return bytes_read;
