@@ -41,54 +41,56 @@ TEST(HTTPHeadersTest, TestHeadersToString)
 
 TEST(HTTPHeadersTest, TestStringToHeader)
 {
-        {
-                const char *str =
-                        "Content-Type: text/html; charset=utf-8\r\n\r\nHello, World\r\n";
+        EtchHeader header;
+        size_t bytes_read;
 
-                EtchHeader header;
-                size_t bytes_read = etch_header_from_string(str, &header);
+        // Test case where header has a body
+        const char *with_body =
+                "Content-Type: text/html; charset=utf-8\r\n\r\nHello, World\r\n";
 
-                ASSERT_STREQ(header.name, "Content-Type");
-                ASSERT_STREQ(header.value, "text/html; charset=utf-8");
-                ASSERT_EQ(bytes_read, 42);
-        }
-        {
-                // Case where there is no body
-                const char *str = "X-Name: foo bar\r\n";
+        bytes_read = etch_header_from_string(with_body, &header);
 
-                EtchHeader header;
-                size_t bytes_read = etch_header_from_string(str, &header);
+        ASSERT_STREQ(header.name, "Content-Type");
+        ASSERT_STREQ(header.value, "text/html; charset=utf-8");
+        ASSERT_EQ(bytes_read, 42);
 
-                ASSERT_STREQ(header.name, "X-Name");
-                ASSERT_STREQ(header.value, "foo bar");
-                ASSERT_EQ(bytes_read, 17);
-        }
-        {
-                // Case where no newline
-                const char *str = "Connection: close";
+        etch_header_free(header);
 
-                EtchHeader header;
-                size_t bytes_read = etch_header_from_string(str, &header);
+        // Case where there is no body
+        const char *without_body = "X-Name: foo bar\r\n";
 
-                ASSERT_STREQ(header.name, "Connection");
-                ASSERT_STREQ(header.value, "close");
-                ASSERT_EQ(bytes_read, 17);
-        }
-        {
-                // Error cases
-                const char *null_at_start = "\0";
+        bytes_read = etch_header_from_string(without_body, &header);
 
-                EtchHeader header;
-                size_t bytes_read =
-                        etch_header_from_string(null_at_start, &header);
-                ASSERT_EQ(bytes_read, -1);
+        ASSERT_STREQ(header.name, "X-Name");
+        ASSERT_STREQ(header.value, "foo bar");
+        ASSERT_EQ(bytes_read, 17);
 
-                const char *newline_at_start = "\r\nhello";
-                bytes_read = etch_header_from_string(newline_at_start, &header);
-                ASSERT_EQ(bytes_read, -1);
+        etch_header_free(header);
 
-                const char *no_colon = "Hello, World!\r\n";
-                bytes_read = etch_header_from_string(no_colon, &header);
-                ASSERT_EQ(bytes_read, -1);
-        }
+        // Case where no newline
+        const char *without_newline = "Connection: close";
+
+        bytes_read = etch_header_from_string(without_newline, &header);
+
+        ASSERT_STREQ(header.name, "Connection");
+        ASSERT_STREQ(header.value, "close");
+        ASSERT_EQ(bytes_read, 17);
+
+        etch_header_free(header);
+
+        // Error cases
+        const char *null_at_start = "\0";
+        bytes_read = etch_header_from_string(null_at_start, &header);
+        ASSERT_EQ(bytes_read, -1);
+        etch_header_free(header);
+
+        const char *newline_at_start = "\r\nhello";
+        bytes_read = etch_header_from_string(newline_at_start, &header);
+        ASSERT_EQ(bytes_read, -1);
+        etch_header_free(header);
+
+        const char *no_colon = "Hello, World!\r\n";
+        bytes_read = etch_header_from_string(no_colon, &header);
+        ASSERT_EQ(bytes_read, -1);
+        etch_header_free(header);
 }

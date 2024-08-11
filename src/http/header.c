@@ -54,6 +54,9 @@ char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
 
 size_t etch_header_from_string(const char *str, EtchHeader *header)
 {
+        // Zero out header just in case
+        memset(header, 0, sizeof(EtchHeader));
+
         if (str[0] == '\0') {
                 return -1;
         }
