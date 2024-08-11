@@ -46,6 +46,8 @@ char *etch_headers_to_string(EtchHeader headers[], size_t headers_count,
 
 /**
  * @brief Reads a HTTP header string and converts it to the header struct
+ *
+ * TODO: Trim trailing whitespace for header.value
  * 
  * @param str Input string to be read from
  * @param header HTTP header struct to be written to
