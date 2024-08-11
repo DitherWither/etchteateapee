@@ -68,13 +68,13 @@ TEST(HTTPHeadersTest, TestStringToHeader)
         etch_header_free(header);
 
         // Case where no newline
-        const char *without_newline = "Connection: close";
+        const char *without_newline = "Connection:close";
 
         bytes_read = etch_header_from_string(without_newline, &header);
 
         ASSERT_STREQ(header.name, "Connection");
         ASSERT_STREQ(header.value, "close");
-        ASSERT_EQ(bytes_read, 17);
+        ASSERT_EQ(bytes_read, 16);
 
         etch_header_free(header);
 
